@@ -20,6 +20,6 @@ module.exports = {
 
     await Member.roles.remove(role);
 
-    message.channel.send(`${Member.displayName} is now unmuted`);
+    message.channel.send(`Đã thả Xích ${Member.displayName}`);
   },
 };

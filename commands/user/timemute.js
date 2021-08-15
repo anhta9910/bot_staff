@@ -55,11 +55,11 @@ module.exports = {
         `${Member.displayName} has already been muted.`
       );
     await Member.roles.add(role2);
-    message.channel.send(`${Member.displayName} is now muted.`);
+    message.channel.send(`${Member.displayName} đã bị xích`);
 
     setTimeout(async () => {
       await Member.roles.remove(role2);
-      message.channel.send(`${Member.displayName} is now unmuted`);
+      message.channel.send(`${Member.displayName} đã được thả xích`);
     }, ms(time));
   },
 };
