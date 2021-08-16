@@ -1,7 +1,18 @@
-const { Client, Message, MessageEmbed, Collection } = require("discord.js");
-const client = new Client();
+const { Client, Collection, Intents } = require("discord.js");
+const client = new Client({
+  intents: [
+    Intents.FLAGS.GUILDS,
+    Intents.FLAGS.GUILD_MESSAGES,
+    Intents.FLAGS.GUILD_VOICE_STATES,
+  ],
+});
 const { token } = require("./token.json");
+const { Player } = require("discord-player");
+const player = new Player(client, {
+  ytdlOptions: { filter: "audioonly" },
+});
 
+client.player = player;
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 
@@ -10,6 +21,16 @@ client.on("ready", () => {
     status: "online",
   });
 });
+
+client.player.on("trackStart", (message, track) =>
+  message.channel.send(`🎶 Đang chơi bài \`${track.title}\`...`)
+);
+client.player.on("trackAdd", (message, queue, track) =>
+  message.channel.send(`✔️ Đã thêm \`${track.name}\` vào hàng chờ `)
+);
+client.player.on("playlistAdd", (message, queue, playlist) =>
+  message.channel.send(`📝 Đã thêm \`${playlist.tracks.length}\`vào hàng chờ`)
+);
 
 client.commands = new Collection();
 client.aliases = new Collection();
@@ -30,7 +51,11 @@ client.on("message", async (message) => {
   if (cmd.length === 0) return;
   let command = client.commands.get(cmd);
   if (!command) command = client.commands.get(client.aliases.get(cmd));
-  if (command) command.run(client, message, args);
+  if (command) {
+    if (command.category === "music" && !message.member.voice.channel)
+      return message.channel.send("Vui lòng vào room voice để nghe em hát ");
+    command.run(client, message, args);
+  }
 });
 
 client.login(token);
