@@ -23,8 +23,7 @@ module.exports = {
         **Author** : ${quotes.data.author}
       `
       )
-      .setImage(quotes.data.author_img)
-      .setAuthor(quotes.data.book);
+      .setThumbnail(quotes.data.author_img);
     message.channel.send(ember);
   },
 };
