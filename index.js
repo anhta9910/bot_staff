@@ -17,7 +17,7 @@ client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 
   client.user.setPresence({
-    activity: { name: "Vẽ Hộ Thảo Real", type: "WATCHING" },
+    activity: { name: "_+Lệnh", type: "PLAYING" },
     status: "online",
   });
 });
