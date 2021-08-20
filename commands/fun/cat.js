@@ -1,6 +1,5 @@
 const axios = require("axios");
 const { MessageEmbed } = require("discord.js");
-const { stripIndent } = require("common-tags");
 
 module.exports = {
   name: "cat",
