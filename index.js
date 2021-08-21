@@ -18,7 +18,7 @@ client.on("ready", () => {
 
   client.user.setPresence({
     activity: { name: "_Lệnh", type: "PLAYING" },
-    status: "online",
+    status: "idle",
   });
 });
 
