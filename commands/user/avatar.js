@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   name: "avatar",
-  aliases: ["ava"],
+  aliases: ["avt"],
   category: " user",
   run: (client, message, args) => {
     const member =
