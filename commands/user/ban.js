@@ -3,10 +3,10 @@ module.exports = {
   name: "ban",
   category: "user",
   run: async (client, message, args) => {
-    // if (!message.member.hasPermission("ADMINISTRATOR"))
-    //   return message.channel.send(
-    //     "Mày đéo có quyền đâu. Khóc với sầu dần đi là vừa"
-    //   );
+    if (!message.member.hasPermission("ADMINISTRATOR"))
+      return message.channel.send(
+        "Mày đéo có quyền đâu. Khóc với sầu dần đi là vừa"
+      );
     const member = message.mentions.members.first();
     args.shift();
     const reason = args.join(" ");

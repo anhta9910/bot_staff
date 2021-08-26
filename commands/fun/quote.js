@@ -21,7 +21,7 @@ module.exports = {
     ember = new MessageEmbed().setColor("GREEN").addField(
       "LEARN ENGLISH EVERYDAY!",
       stripIndent`**Quote** : ${quotes.data[quote].text}
-      **Author** : ${quotes.data[quote].author}
+    **Author** : ${quotes.data[quote].author}
     
     `
     );
