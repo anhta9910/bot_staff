@@ -1,7 +1,5 @@
-const axios = require("axios");
 const { MessageEmbed } = require("discord.js");
 const { stripIndent } = require("common-tags");
-const dateFormat = require("dateformat");
 const cheerio = require("cheerio");
 const request = require("request-promise");
 const { find } = require("cheerio/lib/api/traversing");
