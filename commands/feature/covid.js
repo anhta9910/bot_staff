@@ -25,11 +25,11 @@ module.exports = {
             .toArray();
           const ember = new MessageEmbed().setColor("RED").addField(
             "Cập nhật tình hình Covid",
-            stripIndent`**Tổng Số Ca Nhiễm** : ${data[0]}
-            **Số Ca Đang** : ${data[1]}
+            stripIndent`
+          **Tổng Số Ca Nhiễm** : ${data[0]}
+          **Số Ca Đang Chữa** : ${data[1]}
           **Số Ca Khỏi** : ${data[2]}
-          **Số Ca Tử Vong** : ${data[3]}
-          `
+          **Số Ca Tử Vong** : ${data[3]}`
           );
           message.channel.send(ember);
         } else {
