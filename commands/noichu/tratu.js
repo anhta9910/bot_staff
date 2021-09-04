@@ -15,6 +15,10 @@ module.exports = {
     axios
       .request(options)
       .then(function (res) {
+        if (!res.status == 200)
+          return message.channel.send(
+            "Rất tiếc từ này chưa có trong từ điển hoặc bạn đã sai chính tả vui lòng kiểm tra lại"
+          );
         data = res.data[0].meanings[0];
         const wordType = data.partOfSpeech;
         const definitionWord = data.definitions[0];
@@ -30,7 +34,9 @@ module.exports = {
         message.channel.send(embed);
       })
       .catch((e) => {
-        console.log(e);
+        message.channel.send(
+          "Rất tiếc từ này chưa có trong từ điển hoặc bạn đã sai chính tả vui lòng kiểm tra lại"
+        );
       });
   },
 };
