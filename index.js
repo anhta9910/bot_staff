@@ -51,11 +51,7 @@ client.on("message", async (message) => {
   if (cmd.length === 0) return;
   let command = client.commands.get(cmd);
   if (!command) command = client.commands.get(client.aliases.get(cmd));
-  if (command) {
-    if (command.category === "music" && !message.member.voice.channel)
-      return message.channel.send("Vui lòng vào room voice để nghe em hát ");
-    command.run(client, message, args);
-  }
+  command.run(client, message, args);
 });
 
 client.login(token);
