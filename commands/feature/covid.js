@@ -50,15 +50,15 @@ module.exports = {
           .setStyle("red")
           .setLabel("HN")
           .setID("hn");
-        message.channel.send(embedVn, { buttons: [buttonHcm, buttonHn] });
-        client.on("clickButton", async (button) => {
-          if (button.id == "hn") {
-            message.channel.send(embedHn);
-          }
-          if (button.id == "hcm") {
-            message.channel.send(embedHcm);
-          }
-        });
+        message.channel.send(embedVn /*{ buttons: [buttonHcm, buttonHn] }*/);
+        // client.on("clickButton", async (button) => {
+        //   if (button.id == "hn") {
+        //     message.channel.send(embedHn);
+        //   }
+        //   if (button.id == "hcm") {
+        //     message.channel.send(embedHcm);
+        //   }
+        // });
       })
       .catch((err) => {
         console.log(err);
