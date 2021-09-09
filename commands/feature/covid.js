@@ -1,41 +1,67 @@
+const axios = require("axios");
 const { MessageEmbed } = require("discord.js");
 const { stripIndent } = require("common-tags");
-const cheerio = require("cheerio");
-const request = require("request-promise");
-const { find } = require("cheerio/lib/api/traversing");
+const { MessageButton } = require("discord-buttons");
 
 module.exports = {
   name: "covid",
   category: "feature",
   run: async (client, message, args) => {
-    await request(
-      {
-        url: "https://ncov.moh.gov.vn/",
-        rejectUnauthorized: false,
-      },
-      (error, response, html) => {
-        if (!error && response.statusCode == 200) {
-          const $ = cheerio.load(html); // load HTML
+    const option = {
+      method: "GET",
+      url: "https://static.pipezero.com/covid/data.json",
+    };
+    axios
+      .request(option)
+      .then((res) => {
+        const totalCaseVn = res.data.total.internal;
+        const todayCaseVn = res.data.today.internal;
+        const cvHcm = res.data.locations.find(
+          (x) => x.name === "TP. Hồ Chí Minh"
+        );
+        const cvHn = res.data.locations.find((x) => x.name === "Hà Nội");
 
-          let data = $(".col.text-center")
-            .find(".font24")
-            .map(function (i, el) {
-              return $(this).text();
-            })
-            .toArray();
-          const ember = new MessageEmbed().setColor("RED").addField(
-            "Cập nhật tình hình Covid",
-            stripIndent`
-          **Tổng Số Ca Nhiễm** : ${data[0]}
-          **Số Ca Đang Chữa** : ${data[1]}
-          **Số Ca Khỏi** : ${data[2]}
-          **Số Ca Tử Vong** : ${data[3]}`
-          );
-          message.channel.send(ember);
-        } else {
-          console.log(error);
-        }
-      }
-    );
+        const embedVn = new MessageEmbed().addField(
+          "Cập Nhật Tình Hình Covid",
+          stripIndent`
+        **Tổng Số Ca** : ${totalCaseVn.cases} (Hôm nay +${todayCaseVn.cases})
+        **Tử Vong** : ${totalCaseVn.death} (Hôm nay +${todayCaseVn.death})
+        **Khỏi** : ${totalCaseVn.recovered} (Hôm nay +${todayCaseVn.recovered})`
+        );
+        const embedHn = new MessageEmbed().addField(
+          `Cập Nhật Tình Hình ${cvHn.name}`,
+          stripIndent`
+        **Tổng Số Ca** : ${cvHn.cases}
+        **Tử Vong** : ${cvHn.death}
+        **Số Ca Hôm Nay** : ${cvHn.casesToday}`
+        );
+        const embedHcm = new MessageEmbed().addField(
+          `Cập Nhật Tình Hình ${cvHcm.name}`,
+          stripIndent`
+        **Tổng Số Ca** : ${cvHcm.cases}
+        **Tử Vong** : ${cvHcm.death}
+        **Số Ca Hôm Nay** : ${cvHcm.casesToday}`
+        );
+        const buttonHcm = new MessageButton()
+          .setStyle("blurple")
+          .setLabel("TP HCM")
+          .setID("hcm");
+        const buttonHn = new MessageButton()
+          .setStyle("red")
+          .setLabel("HN")
+          .setID("hn");
+        message.channel.send(embedVn, { buttons: [buttonHcm, buttonHn] });
+        client.on("clickButton", async (button) => {
+          if (button.id == "hn") {
+            message.channel.send(embedHn);
+          }
+          if (button.id == "hcm") {
+            message.channel.send(embedHcm);
+          }
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };

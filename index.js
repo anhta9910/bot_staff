@@ -6,6 +6,7 @@ const client = new Client({
     Intents.FLAGS.GUILD_VOICE_STATES,
   ],
 });
+require("discord-buttons")(client);
 const { token } = require("./token.json");
 const { Player } = require("discord-player");
 const player = new Player(client, {
